@@ -9,7 +9,7 @@ var Enemy = function(x, y, speed) {
   this.x = x;
   this.y = y;
   this.speed = speed;
-  this.hitbox = [99, 77];
+  this.hitbox = [50, 50];
 };
 
 // Update the enemy's position, required method for game
@@ -36,7 +36,7 @@ var Player = function(x = 209, y = 455) {
   this.sprite = 'images/char-boy.png'
   this.x = x;
   this.y = y;
-  this.hitbox = [82, 99];
+  this.hitbox = [50, 50];
 };
 
 Player.prototype.update = function(dt) {
@@ -108,11 +108,11 @@ var Gem = function(x, y) {
   this.sprite = 'images/gem-blue.png';
   this.x = x;
   this.y = y;
-  this.hitbox = [40, 44];
+  this.hitbox = [50, 50];
 };
 
 Gem.prototype.render = function() {
-  ctx.drawImage(Resources.get(this.sprite), this.x, this.y, this.hitbox[0], this.hitbox[1]);
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 40, 44);
 };
 
 // Now instantiate your objects.
