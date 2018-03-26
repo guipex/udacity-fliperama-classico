@@ -78,8 +78,36 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
+
+        function checkCollisions() {
+
+            for(var i = 0; i < allEnemies.length; i++) {
+              if(player.x < allEnemies[i].x + allEnemies[i].hitbox[0] && player.x + player.hitbox[0] > allEnemies[i].x &&
+                 player.y < allEnemies[i].y + allEnemies[i].hitbox[1] && player.y + player.hitbox[1] > allEnemies[i].y) {
+
+                player.startPosition();
+                score = 0;
+                shuffleGemsColor();
+                ctx.canvas.width = ctx.canvas.width;
+              }
+            }
+
+            for(var z = 0; z < allGems.length; z++) {
+              if(player.x < allGems[z].x + allGems[z].hitbox[1] && player.x + player.hitbox[1] > allGems[z].x &&
+                 player.y < allGems[z].y + allGems[z].hitbox[0] && player.y + player.hitbox[0] > allGems[z].y) {
+
+                allGems.splice(z, 1);
+                z--;
+                score += 20;
+                ctx.canvas.width = ctx.canvas.width;
+              }
+            }
+
+        }
+
+        playerReachRiver();
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -94,6 +122,39 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+    }
+
+    function playerReachRiver() {
+      if(player.y <= 80) {
+        player.startPosition();
+        shuffleGemsColor();
+        score += 10;
+        ctx.canvas.width = ctx.canvas.width;
+      }
+    }
+
+    // Shuffle color of gems whens spawn
+    function shuffleGemsColor() {
+      respawnGems();
+      for(var h = 0; h < allGems.length; h++) {
+        switch(Math.floor((Math.random() * 3))) {
+          case 0:
+            allGems[h].sprite = 'images/gem-blue.png';
+            break;
+          case 1:
+            allGems[h].sprite = 'images/gem-green.png';
+            break;
+          case 2:
+            allGems[h].sprite = 'images/gem-orange.png';
+            break;
+        };
+      }
+    }
+
+    // Respawn gems
+    function respawnGems() {
+      allGems = [];
+      allGems.push(new Gem(140, 240), new Gem(320, 350), new Gem(380, 170));
     }
 
     /* This function initially draws the "game level", it will then call
@@ -150,7 +211,11 @@ var Engine = (function(global) {
          * the render function you have defined.
          */
         allEnemies.forEach(function(enemy) {
-            enemy.render();
+          enemy.render();
+        });
+
+        allGems.forEach(function(gem) {
+          gem.render();
         });
 
         player.render();
@@ -162,6 +227,7 @@ var Engine = (function(global) {
      */
     function reset() {
         // noop
+        shuffleGemsColor();
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -173,7 +239,10 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/gem-blue.png',
+        'images/gem-green.png',
+        'images/gem-orange.png'
     ]);
     Resources.onReady(init);
 

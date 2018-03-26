@@ -1,36 +1,133 @@
 // Enemies our player must avoid
-var Enemy = function() {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
+var Enemy = function(x, y, speed) {
+  // Variables applied to each of our instances go here,
+  // we've provided one for you to get started
 
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
+  // The image/sprite for our enemies, this uses
+  // a helper we've provided to easily load images
+  this.sprite = 'images/enemy-bug.png';
+  this.x = x;
+  this.y = y;
+  this.speed = speed;
+  this.hitbox = [99, 77];
 };
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
+  // You should multiply any movement by the dt parameter
+  // which will ensure the game runs at the same speed for
+  // all computers.
+  this.x = this.x + this.speed * dt;
+  if(this.x > ctx.canvas.width) {
+    this.x = -300;
+  }
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+var Player = function(x = 209, y = 455) {
+  this.sprite = 'images/char-boy.png'
+  this.x = x;
+  this.y = y;
+  this.hitbox = [82, 99];
+};
 
+Player.prototype.update = function(dt) {
+  if(this.x <= 5) {
+    this.x = 5;
+  } else if(this.x > 413) {
+    this.x = 413;
+  }
+
+  if(this.y < 0) {
+    this.y = 0;
+  } else if(this.y > 455) {
+    this.y = 455;
+  }
+};
+
+Player.prototype.startPosition = function() {
+  this.x = 209;
+  this.y = 455;
+};
+
+Player.prototype.customSprite = function(sprite) {
+  switch(sprite) {
+    case 'cat':
+      this.sprite = 'images/char-cat-girl.png';
+      break;
+
+    case 'horn':
+      this.sprite = 'images/char-horn-girl.png';
+      break;
+
+    case 'pink':
+      this.sprite = 'images/char-pink-girl.png';
+      break;
+
+    case 'princess':
+      this.sprite = 'images/char-princess-girl.png';
+      break;   
+  }
+};
+
+Player.prototype.render = function() {
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  ctx.font = "32px Arial";
+  ctx.fillText("Score: " + score, 0, 35);
+};
+
+Player.prototype.handleInput = function(keys) {
+  switch(keys) {
+    case 'left':
+      this.x = this.x - 102;
+      break;
+
+    case 'right':
+      this.x = this.x + 102;
+      break;
+
+    case 'up':
+      this.y = this.y - 83;
+      break;
+
+    case 'down':
+      this.y = this.y + 83;
+      break;
+  }
+};
+
+var Gem = function(x, y) {
+  this.sprite = 'images/gem-blue.png';
+  this.x = x;
+  this.y = y;
+  this.hitbox = [40, 44];
+};
+
+Gem.prototype.render = function() {
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y, this.hitbox[0], this.hitbox[1]);
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+var allEnemies = [
+  new Enemy(-100, 140, 400),
+  new Enemy(-300, 220, 250),
+  new Enemy(-200, 300, 300),
+  new Enemy(-150, 380, 150),
+];
 
+var player = new Player();
 
+var score = 0;
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
