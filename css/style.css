@@ -2,6 +2,11 @@ body {
     text-align: center;
 }
 
+.show {
+	visibility: visible !important;
+	opacity: 1 !important;
+}
+
 #congrats-popup {
 	position: fixed;
 	top: 0;
