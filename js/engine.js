@@ -124,16 +124,21 @@ var Engine = (function(global) {
         player.update();
     }
 
+    // show winner popup when player wins
     function playerReachRiver() {
       if(player.y <= 80) {
         player.startPosition();
-        shuffleGemsColor();
         score += 10;
         ctx.canvas.width = ctx.canvas.width;
+        document.getElementById("congrats-popup").classList.add("show");
+        document.getElementById("points").innerHTML = score;
+        allEnemies = [];
+        allGems = [];
+        player.sprite = '';
       }
     }
 
-    // Shuffle color of gems whens spawn
+    // Shuffle color of gems when spawn
     function shuffleGemsColor() {
       respawnGems();
       for(var h = 0; h < allGems.length; h++) {

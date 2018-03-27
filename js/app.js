@@ -141,3 +141,8 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+// restart game button
+document.getElementById("play-again").addEventListener("click", function() {
+  location.reload();
+});
