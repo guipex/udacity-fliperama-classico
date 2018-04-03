@@ -4,6 +4,18 @@ const maxX = 413;
 const minY = 0;
 const maxY = 455;
 
+// Character super class
+var Character = function(sprite, x, y, speed) {
+  this.sprite = 'images/enemy-bug.png';
+  this.x = x;
+  this.y = y;
+  this.speed = speed;
+};
+
+Character.prototype.render = function() {
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
   // Variables applied to each of our instances go here,
@@ -18,6 +30,8 @@ var Enemy = function(x, y, speed) {
   this.hitbox = [50, 50];
 };
 
+Enemy.prototype = new Character();
+
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
@@ -31,9 +45,7 @@ Enemy.prototype.update = function(dt) {
 };
 
 // Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -44,6 +56,8 @@ var Player = function(x = 209, y = 455) {
   this.y = y;
   this.hitbox = [50, 50];
 };
+
+Player.prototype = new Character();
 
 Player.prototype.update = function(dt) {
   if(this.x <= minX) {
@@ -82,10 +96,6 @@ Player.prototype.customSprite = function(sprite) {
       this.sprite = 'images/char-princess-girl.png';
       break;   
   }
-};
-
-Player.prototype.render = function() {
-  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);  
 };
 
 Player.prototype.handleInput = function(keys) {
