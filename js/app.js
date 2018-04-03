@@ -1,3 +1,9 @@
+// Constants
+const minX = 5;
+const maxX = 413;
+const minY = 0;
+const maxY = 455;
+
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
   // Variables applied to each of our instances go here,
@@ -40,16 +46,16 @@ var Player = function(x = 209, y = 455) {
 };
 
 Player.prototype.update = function(dt) {
-  if(this.x <= 5) {
-    this.x = 5;
-  } else if(this.x > 413) {
-    this.x = 413;
+  if(this.x <= minX) {
+    this.x = minX;
+  } else if(this.x > maxX) {
+    this.x = maxX;
   }
 
-  if(this.y < 0) {
-    this.y = 0;
-  } else if(this.y > 455) {
-    this.y = 455;
+  if(this.y < minY) {
+    this.y = minY;
+  } else if(this.y > maxY) {
+    this.y = maxY;
   }
 };
 
@@ -79,7 +85,7 @@ Player.prototype.customSprite = function(sprite) {
 };
 
 Player.prototype.render = function() {
-  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);  
 };
 
 Player.prototype.handleInput = function(keys) {
