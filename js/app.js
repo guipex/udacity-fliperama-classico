@@ -80,8 +80,6 @@ Player.prototype.customSprite = function(sprite) {
 
 Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-  ctx.font = "32px Arial";
-  ctx.fillText("Score: " + score, 0, 35);
 };
 
 Player.prototype.handleInput = function(keys) {

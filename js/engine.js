@@ -104,7 +104,6 @@ var Engine = (function(global) {
             }
 
         }
-
         playerReachRiver();
         updateEntities(dt);
         checkCollisions();
@@ -186,6 +185,10 @@ var Engine = (function(global) {
         
         // Before drawing, clear existing canvas
         ctx.clearRect(0,0,canvas.width,canvas.height)
+
+        // Render the score
+        ctx.font = "32px Arial";
+        ctx.fillText("Score: " + score, 0, 35);
 
         /* Loop through the number of rows and columns we've defined above
          * and, using the rowImages array, draw the correct image for that
